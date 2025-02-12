@@ -6,7 +6,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -37,39 +36,64 @@ body {
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
+    --background: 230 15% 12%; /* Dark Gray-Blue Background */
+    --foreground: 210 20% 98%; /* Light Gray-White Text */
+    --card: 230 15% 14%; /* Slightly Lighter than Background */
+    --card-foreground: 210 20% 98%;
+    --popover: 230 15% 14%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 220 90% 55%; /* Vibrant Blue for Highlights */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 230 20% 20%; /* Neutral Gray for Subtle Elements */
     --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
+
+    --muted: 230 20% 18%;
+    --muted-foreground: 215 15% 70%;
+
+    --accent: 220 60% 45%; /* Softer Blue */
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+
+    --destructive: 0 65% 50%; /* Improved Red Tone */
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+
+    --border: 230 20% 25%;
+    --input: 230 20% 25%;
+    --ring: 220 90% 55%; /* Matches Primary for UI Focus */
+
+    --chart-1: 220 75% 60%; /* Bright Blue */
+    --chart-2: 180 65% 45%; /* Teal */
+    --chart-3: 40 80% 55%; /* Warm Yellow */
+    --chart-4: 280 70% 60%; /* Purple */
+    --chart-5: 350 75% 55%; /* Pink */
   }
 }
-
-
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+@layer utilities {
+  .bg-grid-black {
+    background-size: 30px 30px;
+    background-image: linear-gradient(
+        to right,
+        rgb(0 0 0 / 0.1) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(0 0 0 / 0.1) 1px, transparent 1px);
+  }
+  .bg-grid-white {
+    background-size: 30px 30px;
+    background-image: linear-gradient(
+        to right,
+        rgb(255 255 255 / 0.1) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.1) 1px, transparent 1px);
   }
 }

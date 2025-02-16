@@ -39,7 +39,7 @@ export default function GeneralInfoForm({
       <div className="space-y-1.5 text-center">
         <h2 className="text-2xl font-semibold">General Info</h2>
         <p className="text-sm text-muted-foreground">
-          Info Will appear in your resume
+          This will not appear on your resume.
         </p>
       </div>
       <Form {...form}>

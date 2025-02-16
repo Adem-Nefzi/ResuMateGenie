@@ -21,7 +21,7 @@ export default function Navbar() {
             height={35}
             className="rounded-full"
           />
-          <span className="text-xl font-bold tracking-tight animate-pulse">
+          <span className="text-xl font-bold tracking-tight animate-pulse bg-gradient-to-r from-sky-500 to-blue-700 bg-clip-text text-transparent">
             ResuMateGenie
           </span>
         </Link>
@@ -41,9 +41,9 @@ export default function Navbar() {
           >
             <UserButton.MenuItems>
               <UserButton.Link
-                label="Billing"
+                label="Payement"
                 labelIcon={<CreditCard className="size-4" />}
-                href="/billing"
+                href="/payement"
               />
             </UserButton.MenuItems>
           </UserButton>

@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 export const optionalString = z.string().trim().optional().or(z.literal(""));
@@ -22,12 +21,12 @@ export const personalInfoSchema = z.object({
       "The Imported File Must be less than 4MB"
     ),
   firstName: optionalString,
-  LastName: optionalString,
-  JobTitle: optionalString,
-  Country: optionalString,
-  City: optionalString,
-  Email: optionalString,
-  Phone: optionalString,
+  lastName: optionalString,
+  jobTitle: optionalString,
+  country: optionalString,
+  city: optionalString,
+  email: optionalString,
+  phone: optionalString,
 });
 export type PersonalInfoValues = z.infer<typeof personalInfoSchema>;
 

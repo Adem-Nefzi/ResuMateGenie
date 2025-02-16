@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { EditorFormProps } from "@/lib/types";
 import { educationSchema, EducationValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GripHorizontal, LucideTrash2, Plus } from "lucide-react";
+import { Layers, LucideTrash2, Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 
@@ -90,7 +90,10 @@ function EducationItem({ form, index, remove }: EducationItemProps) {
     <div className="space-y-3 border rounded-md bg-background p-3">
       <div className="flex justify-between gap-2">
         <span className="font-semibold"> Education {index + 1}</span>
-        <GripHorizontal className="size-5 cursor-grab text-muted-foreground" />
+        <Layers
+          className="size-5 cursor-auto text-muted-foreground"
+          color="#5264bc"
+        />
       </div>
       <FormField
         control={form.control}

@@ -13,7 +13,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { EditorFormProps } from "@/lib/types";
 import { workExperienceSchema, workExperienceValues } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GripHorizontal, LucideTrash2, Plus } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  LucideTrash2,
+  Plus,
+} from "lucide-react";
 import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { UseFormReturn } from "react-hook-form";
@@ -98,7 +102,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
     <div className="space-y-3 border rounded-md bg-background p-3">
       <div className="flex justify-between gap-2">
         <span className="font-semibold"> Work Experience {index + 1}</span>
-        <GripHorizontal className="size-5 cursor-grab text-muted-foreground" />
+        <BriefcaseBusiness className="size-5 cursor-auto text-muted-foreground" color="#5264bc"/>
       </div>
       <FormField
         control={form.control}

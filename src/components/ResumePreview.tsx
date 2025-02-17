@@ -91,7 +91,7 @@ function SummarySection({ resumeData }: ResumeSectionProps) {
       <hr className="border-1" />
       <div className="space-y-3 break-inside-avoid">
         <p className="text-lg font-semibold"> Professional Profile </p>
-        <div className="whitespace-pre-line text-sm">{summary}</div>
+        <div className="whitespace-pre-line text-sm break-words">{summary}</div>
       </div>
     </>
   );

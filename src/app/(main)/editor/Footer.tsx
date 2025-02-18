@@ -7,7 +7,6 @@ import {
   FileUserIcon,
   PenLineIcon,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { Spotlight } from "@/components/ui/Spotlight";
 
@@ -37,12 +36,7 @@ export default function Footer({
   )?.key;
 
   return (
-    <motion.footer
-      className="relative w-full border-t overflow-hidden"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
+    <footer className="relative w-full border-t overflow-hidden">
       {/* Grid background - applied earlier */}
       <div className="absolute inset-0 bg-[size:20px_20px]">
         {/* Light mode: Subtle grid */}
@@ -63,128 +57,79 @@ export default function Footer({
         <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-3">
           {/* Navigation buttons */}
           <div className="flex items-center gap-4">
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                variant="secondary"
-                onClick={
-                  previousStep ? () => setCurrentStep(previousStep) : undefined
-                }
-                disabled={!previousStep}
-                className="group relative overflow-hidden bg-secondary/80 backdrop-blur-sm border border-primary/10"
-              >
-                <motion.div
-                  className="flex items-center gap-2"
-                  whileHover={{ x: -3 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  <span>Previous</span>
-                </motion.div>
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                onClick={nextStep ? () => setCurrentStep(nextStep) : undefined}
-                disabled={!nextStep}
-                className="group relative overflow-hidden bg-primary/90 backdrop-blur-sm"
-              >
-                <motion.div
-                  className="flex items-center gap-2"
-                  whileHover={{ x: 3 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <span>Next</span>
-                  <ChevronRight className="h-4 w-4" />
-                </motion.div>
-              </Button>
-            </motion.div>
-          </div>
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button
-              variant="default"
-              size="icon"
-              onClick={() => setShowSmResumePreview(!showSmResumePreview)}
-              className="md:hidden"
-              title={
-                showSmResumePreview ? "Show input form" : "Show resume Preview"
+              variant="secondary"
+              onClick={
+                previousStep ? () => setCurrentStep(previousStep) : undefined
               }
+              disabled={!previousStep}
+              className="group relative overflow-hidden bg-secondary/80 backdrop-blur-sm border border-primary/10 hover:bg-secondary/90 hover:shadow-md transition-all duration-300"
             >
-              {showSmResumePreview ? <PenLineIcon /> : <FileUserIcon />}
+              <div className="flex items-center gap-2">
+                <ChevronLeft className="h-4 w-4" />
+                <span>Previous</span>
+              </div>
             </Button>
-          </motion.div>
+
+            <Button
+              onClick={nextStep ? () => setCurrentStep(nextStep) : undefined}
+              disabled={!nextStep}
+              className="group relative overflow-hidden bg-primary/90 backdrop-blur-sm hover:bg-primary/100 hover:shadow-md transition-all duration-300"
+            >
+              <div className="flex items-center gap-2">
+                <span>Next</span>
+                <ChevronRight className="h-4 w-4" />
+              </div>
+            </Button>
+          </div>
+
+          {/* Mobile toggle button */}
+          <Button
+            variant="default"
+            size="icon"
+            onClick={() => setShowSmResumePreview(!showSmResumePreview)}
+            className="md:hidden hover:bg-primary/90 hover:shadow-md transition-all duration-300"
+            title={
+              showSmResumePreview ? "Show input form" : "Show resume Preview"
+            }
+          >
+            {showSmResumePreview ? <PenLineIcon /> : <FileUserIcon />}
+          </Button>
 
           {/* Right side controls */}
           <div className="flex items-center gap-4">
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button
-                variant="secondary"
-                asChild
-                className="group relative overflow-hidden bg-secondary/80 backdrop-blur-sm border border-primary/10"
-              >
-                <Link href="/resumes">
-                  <motion.div
-                    className="flex items-center gap-2"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <span>Close</span>
-                  </motion.div>
-                </Link>
-              </Button>
-            </motion.div>
-
-            {/* Animated saving indicator */}
-            <motion.div
-              className="flex items-center gap-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
+            <Button
+              variant="secondary"
+              asChild
+              className="group relative overflow-hidden bg-secondary/80 backdrop-blur-sm border border-primary/10 hover:bg-secondary/90 hover:shadow-md transition-all duration-300"
             >
+              <Link href="/resumes">
+                <div className="flex items-center gap-2">
+                  <span>Close</span>
+                </div>
+              </Link>
+            </Button>
+
+            {/* Saving indicator */}
+            <div className="flex items-center gap-2">
               <div className="relative">
-                <motion.div
-                  className="absolute -inset-1"
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.5, 0, 0.5],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
+                <div className="absolute -inset-1">
                   <div className="h-2 w-2 rounded-full bg-primary/50" />
-                </motion.div>
+                </div>
                 <div className="h-2 w-2 rounded-full bg-primary" />
               </div>
               {isSaving && (
-                <motion.p
-                  className="text-sm text-muted-foreground opacity-100"
-                  animate={{
-                    opacity: [0.5, 1, 0.5],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
+                <p className="text-sm text-muted-foreground opacity-100">
                   Auto-saving...
-                </motion.p>
+                </p>
               )}
-            </motion.div>
+            </div>
           </div>
         </div>
 
         {/* Progress indicator */}
-        <motion.div
-          className="absolute bottom-0 left-0 h-0.5 bg-primary"
-          initial={{ width: "0%" }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 5, repeat: Infinity }}
-        />
+        <div className="absolute bottom-0 left-0 h-0.5 bg-primary" />
       </div>
-    </motion.footer>
+    </footer>
   );
 }

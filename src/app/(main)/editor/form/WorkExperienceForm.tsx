@@ -11,13 +11,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { EditorFormProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { workExperienceSchema, workExperienceValues } from "@/lib/validation";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BriefcaseBusiness, LucideTrash2, Plus } from "lucide-react";
+import { GripHorizontal } from "lucide-react";
 import { useEffect } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { UseFormReturn } from "react-hook-form";
+import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 import GenerateWorkExperienceButton from "./GenerateWorkExperienceButton";
+
 export default function WorkExperienceForm({
   resumeData,
   setResumeData,
@@ -42,29 +61,60 @@ export default function WorkExperienceForm({
     return unsubscribe;
   }, [form, resumeData, setResumeData]);
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({
     control: form.control,
     name: "workExperiences",
   });
 
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = fields.findIndex((field) => field.id === active.id);
+      const newIndex = fields.findIndex((field) => field.id === over.id);
+      move(oldIndex, newIndex);
+      return arrayMove(fields, oldIndex, newIndex);
+    }
+  }
+
   return (
-    <div className="max-w-xl mx-auto space-y-6">
-      <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-semibold"> Work Experience </h2>
+    <div className="mx-auto max-w-xl space-y-6">
+      <div className="space-y-1.5 text-center">
+        <h2 className="text-2xl font-semibold">Work experience</h2>
         <p className="text-sm text-muted-foreground">
-          Feel Free to share your Previous Work Experiences !
+          Add as many work experiences as you like.
         </p>
       </div>
       <Form {...form}>
         <form className="space-y-3">
-          {fields.map((field, index) => (
-            <WorkExperienceItem
-              key={field.id}
-              index={index}
-              form={form}
-              remove={remove}
-            />
-          ))}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+            modifiers={[restrictToVerticalAxis]}
+          >
+            <SortableContext
+              items={fields}
+              strategy={verticalListSortingStrategy}
+            >
+              {fields.map((field, index) => (
+                <WorkExperienceItem
+                  id={field.id}
+                  key={field.id}
+                  index={index}
+                  form={form}
+                  remove={remove}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
           <div className="flex justify-center">
             <Button
               type="button"
@@ -78,8 +128,7 @@ export default function WorkExperienceForm({
                 })
               }
             >
-              <Plus />
-              Add Your Work Experiences
+              Add work experience
             </Button>
           </div>
         </form>
@@ -89,19 +138,45 @@ export default function WorkExperienceForm({
 }
 
 interface WorkExperienceItemProps {
+  id: string;
   form: UseFormReturn<workExperienceValues>;
   index: number;
   remove: (index: number) => void;
 }
 
-function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
+function WorkExperienceItem({
+  id,
+  form,
+  index,
+  remove,
+}: WorkExperienceItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id });
+
   return (
-    <div className="space-y-3 border rounded-md bg-background p-3">
+    <div
+      className={cn(
+        "space-y-3 rounded-md border bg-background p-3",
+        isDragging && "relative z-50 cursor-grab shadow-xl"
+      )}
+      ref={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
+    >
       <div className="flex justify-between gap-2">
-        <span className="font-semibold"> Work Experience {index + 1}</span>
-        <BriefcaseBusiness
-          className="size-5 cursor-auto text-muted-foreground"
-          color="#5264bc"
+        <span className="font-semibold">Work experience {index + 1}</span>
+        <GripHorizontal
+          className="size-5 cursor-grab text-muted-foreground focus:outline-none"
+          {...attributes}
+          {...listeners}
         />
       </div>
       <div className="flex justify-center">
@@ -116,7 +191,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
         name={`workExperiences.${index}.position`}
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Job Title</FormLabel>
+            <FormLabel>Job title</FormLabel>
             <FormControl>
               <Input {...field} autoFocus />
             </FormControl>
@@ -143,7 +218,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
           name={`workExperiences.${index}.startDate`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Starting Date </FormLabel>
+              <FormLabel>Start date</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -160,7 +235,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
           name={`workExperiences.${index}.endDate`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Finishing Date </FormLabel>
+              <FormLabel>End date</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -174,9 +249,8 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
         />
       </div>
       <FormDescription>
-        <span className="font-semibold text-red-500">
-          <li>Leave this empty if you are still working here</li>
-        </span>
+        Leave <span className="font-semibold">end date</span> empty if you are
+        currently working here.
       </FormDescription>
       <FormField
         control={form.control}
@@ -192,7 +266,7 @@ function WorkExperienceItem({ form, index, remove }: WorkExperienceItemProps) {
         )}
       />
       <Button variant="destructive" type="button" onClick={() => remove(index)}>
-        <LucideTrash2 />
+        Remove
       </Button>
     </div>
   );

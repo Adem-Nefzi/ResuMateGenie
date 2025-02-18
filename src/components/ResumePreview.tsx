@@ -1,4 +1,4 @@
-import UseDimensions from "@/hooks/Dimestions";
+import UseDimensions from "@/hooks/Dimensions";
 import { cn } from "@/lib/utils";
 import { resumeValues } from "@/lib/validation";
 import Image from "next/image";
@@ -8,8 +8,10 @@ import { Badge } from "./ui/badge";
 interface ResumePreviewProps {
   resumeData: resumeValues;
   className?: string;
+  contentRef?: React.Ref<HTMLDivElement>;
 }
 export default function ResumePreview({
+  contentRef,
   resumeData,
   className,
 }: ResumePreviewProps) {
@@ -28,6 +30,8 @@ export default function ResumePreview({
         style={{
           zoom: (1 / 794) * width,
         }}
+        ref={contentRef}
+        id="resumePreviewContent"
       >
         <PersonalInfoHeader resumeData={resumeData} />
         <SummarySection resumeData={resumeData} />

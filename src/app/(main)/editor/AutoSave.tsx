@@ -1,23 +1,25 @@
-import { useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import useDebounce from "@/hooks/useDebounce";
 import { resumeValues } from "@/lib/validation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { saveResume } from "./actions";
-import { Button } from "@/components/ui/button";
 import { fileReplacer } from "@/lib/utils";
 
 export default function useAutoSaveResume(resumeData: resumeValues) {
   const searchParams = useSearchParams();
 
   const { toast } = useToast();
-  const debouncedResumeData = useDebounce(resumeData, 2000);
+
+  const debouncedResumeData = useDebounce(resumeData, 1500);
 
   const [resumeId, setResumeId] = useState(resumeData.id);
-  const [lastSaved, setLastSaved] = useState(
-    //This Function create clone of the current page to trigger AutoSave when change is made
+
+  const [lastSavedData, setLastSavedData] = useState(
     structuredClone(resumeData)
   );
+
   const [isSaving, setIsSaving] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -35,14 +37,15 @@ export default function useAutoSaveResume(resumeData: resumeValues) {
 
         const updatedResume = await saveResume({
           ...newData,
-          ...(JSON.stringify(lastSaved.photo, fileReplacer) ===
+          ...(JSON.stringify(lastSavedData.photo, fileReplacer) ===
             JSON.stringify(newData.photo, fileReplacer) && {
             photo: undefined,
           }),
           id: resumeId,
         });
+
         setResumeId(updatedResume.id);
-        setLastSaved(newData);
+        setLastSavedData(newData);
 
         if (searchParams.get("resumeId") !== updatedResume.id) {
           const newSearchParams = new URLSearchParams(searchParams);
@@ -60,7 +63,7 @@ export default function useAutoSaveResume(resumeData: resumeValues) {
           variant: "destructive",
           description: (
             <div className="space-y-3">
-              <p>Could not save changes..</p>
+              <p>Could not save changes.</p>
               <Button
                 variant="secondary"
                 onClick={() => {
@@ -77,16 +80,24 @@ export default function useAutoSaveResume(resumeData: resumeValues) {
         setIsSaving(false);
       }
     }
+
+    console.log(
+      "debouncedResumeData",
+      JSON.stringify(debouncedResumeData, fileReplacer)
+    );
+    console.log("lastSavedData", JSON.stringify(lastSavedData, fileReplacer));
+
     const hasUnsavedChanges =
       JSON.stringify(debouncedResumeData, fileReplacer) !==
-      JSON.stringify(lastSaved, fileReplacer);
+      JSON.stringify(lastSavedData, fileReplacer);
+
     if (hasUnsavedChanges && debouncedResumeData && !isSaving && !isError) {
       save();
     }
   }, [
     debouncedResumeData,
     isSaving,
-    lastSaved,
+    lastSavedData,
     isError,
     resumeId,
     searchParams,
@@ -95,6 +106,7 @@ export default function useAutoSaveResume(resumeData: resumeValues) {
 
   return {
     isSaving,
-    hasUnsavedChanges: JSON.stringify(resumeData) !== JSON.stringify(lastSaved),
+    hasUnsavedChanges:
+      JSON.stringify(resumeData) !== JSON.stringify(lastSavedData),
   };
 }

@@ -1,7 +1,7 @@
 import LoadingButton from "@/components/LoadingButton";
 import { useToast } from "@/hooks/use-toast";
 import { resumeValues } from "@/lib/validation";
-import { WandSparkles } from "lucide-react";
+import { WandSparklesIcon } from "lucide-react";
 import { useState } from "react";
 import { generateSummary } from "./actions";
 
@@ -15,9 +15,12 @@ export default function GenerateSummaryButton({
   onSummaryGenerated,
 }: GenerateSummaryButtonProps) {
   const { toast } = useToast();
+
   const [loading, setLoading] = useState(false);
 
   async function handleClick() {
+    // TODO: Block for non-premium users
+
     try {
       setLoading(true);
       const aiResponse = await generateSummary(resumeData);
@@ -26,12 +29,13 @@ export default function GenerateSummaryButton({
       console.error(error);
       toast({
         variant: "destructive",
-        description: "Something went wrong . Please try again",
+        description: "Something went wrong. Please try again.",
       });
     } finally {
       setLoading(false);
     }
   }
+
   return (
     <LoadingButton
       variant="outline"
@@ -39,7 +43,7 @@ export default function GenerateSummaryButton({
       onClick={handleClick}
       loading={loading}
     >
-      <WandSparkles className="size-4" />
+      <WandSparklesIcon className="size-4" />
       Generate (AI)
     </LoadingButton>
   );

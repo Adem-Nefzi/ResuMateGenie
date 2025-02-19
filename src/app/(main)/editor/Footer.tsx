@@ -7,7 +7,6 @@ import {
   FileUserIcon,
   PenLineIcon,
 } from "lucide-react";
-import { useState } from "react";
 import { Spotlight } from "@/components/ui/Spotlight";
 
 interface FooterProps {
@@ -25,8 +24,6 @@ export default function Footer({
   setShowSmResumePreview,
   isSaving,
 }: FooterProps) {
-  const [hovered, setHovered] = useState(false);
-
   const previousStep = steps.find(
     (_, index) => steps[index + 1]?.key === currentStep
   )?.key;

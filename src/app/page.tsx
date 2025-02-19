@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import Navbar2 from "@/components/Navbar2";
+import Navbar2 from "@/components/NavBar2";
 import logo from "@/assets/logo.png";
 import resumePreview from "@/assets/resumePreview.png";
 import { Button } from "@/components/ui/button";

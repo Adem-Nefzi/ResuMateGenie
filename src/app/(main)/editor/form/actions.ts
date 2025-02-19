@@ -112,7 +112,8 @@ export async function generateWorkExperience(
     ],
   });
 
-  const aiResponse = completion.choices[0]?.message?.content;
+  const aiResponse = completion.choices[0]?.message?.content?.toString() || "";
+
   if (!aiResponse) throw new Error("Failed to generate AI response");
 
   console.log("aiResponse", aiResponse);

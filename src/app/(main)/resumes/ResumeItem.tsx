@@ -49,7 +49,7 @@ export default function ResumeItem({ resume }: ResumeItemProps) {
             href={`/editor?resumeId=${resume.id}`}
             className="block text-lg font-bold text-primary transition-colors hover:text-accent"
           >
-            {resume.title || "Untitled Masterpiece"}
+            {resume.title || "Untitled Resume"}
           </Link>
           {resume.description && (
             <p className="text-sm text-muted-foreground line-clamp-3 mt-1 transition-opacity opacity-0 group-hover:opacity-100">

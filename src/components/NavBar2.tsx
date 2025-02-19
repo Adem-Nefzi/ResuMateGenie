@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import { UserButton } from "@clerk/nextjs";
-import { CreditCard } from "lucide-react";
+// import { CreditCard } from "lucide-react";
 import ThemeToggle from "@/components/ThemeTgl";
 import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
@@ -40,13 +40,13 @@ export default function Navbar2() {
               },
             }}
           >
-            <UserButton.MenuItems>
+            {/* <UserButton.MenuItems>
               <UserButton.Link
                 label="Payment"
                 labelIcon={<CreditCard className="size-4" />}
                 href="/payment"
               />
-            </UserButton.MenuItems>
+            </UserButton.MenuItems> */}
           </UserButton>
         </div>
       </div>

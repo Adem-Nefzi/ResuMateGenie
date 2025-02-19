@@ -122,10 +122,7 @@ export default function Home() {
               width={600}
               className="rounded-xl shadow-2xl lg:rotate-[1.5deg] transform transition-all duration-500 hover:rotate-0 hover:scale-105"
             />
-            {/* Glow effect */}
             <div className="absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-400 opacity-20 blur-3xl group-hover:opacity-30 transition-opacity duration-500" />
-            {/* Subtle border animation */}
-            <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-blue-500/20 transition-all duration-500" />
           </div>
         </motion.div>
       </main>

@@ -46,7 +46,6 @@ export default async function Page() {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
       </div>
       <Spotlight />
-      <Spotlight />
       <div className="relative max-w-[100vw] mx-auto px-6 py-12">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">

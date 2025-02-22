@@ -75,9 +75,9 @@ export default function Home() {
           >
             Create the{" "}
             <span className="inline-block bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent">
-              Perfect Resume
+              Standout Resume
             </span>{" "}
-            in Minutes
+            in minutes—no stress, just success!
           </motion.h1>
           <motion.p
             className="text-lg text-gray-500 dark:text-gray-300"
@@ -89,8 +89,8 @@ export default function Home() {
             <span className="font-bold text-blue-500 dark:text-cyan-400">
               AI resume builder
             </span>{" "}
-            helps you design a professional resume, even if you&apos;re not very
-            smart.
+            helps you craft a professional resume—no genius-level skills
+            required!
           </motion.p>
 
           <motion.div
